@@ -1,5 +1,13 @@
 ### Changelog – WebAI to API
 
+#### v0.7.2 – 2026-11-24
+
+##### Fixed
+- Fixed Starlette 1.x `TemplateResponse` positional parameter mismatch in `/admin` endpoint (`TypeError: unhashable type: 'dict'`) by passing keyword arguments `request` and `name`.
+- Added a 15-second timeout (`asyncio.wait_for`) and timeout exception handling for `GeminiClient.init()` to prevent indefinite deadlock on `asyncio.Lock` during startup when cookies are invalid or expired, allowing the server and admin dashboard to load properly.
+
+---
+
 #### v0.7.1 – 2026-11-07
 
 ##### Fixed

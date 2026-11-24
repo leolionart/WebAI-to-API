@@ -45,7 +45,7 @@ async def init_gemini_client() -> bool:
 
             if gemini_cookie_1PSID and gemini_cookie_1PSIDTS:
                 _gemini_client = MyGeminiClient(secure_1psid=gemini_cookie_1PSID, secure_1psidts=gemini_cookie_1PSIDTS, proxy=gemini_proxy)
-                await _gemini_client.init()
+                await asyncio.wait_for(_gemini_client.init(), timeout=15.0)
                 logger.info("Gemini client initialized successfully.")
                 return True
             else:
@@ -53,6 +53,13 @@ async def init_gemini_client() -> bool:
                 _initialization_error = "Gemini cookies not found."
                 logger.error(_initialization_error)
                 return False
+
+        except (asyncio.TimeoutError, TimeoutError) as e:
+            _error_code = "timeout"
+            _initialization_error = "Timeout initializing Gemini client (check cookies/network)."
+            logger.error(_initialization_error)
+            _gemini_client = None
+            return False
 
         except AuthError as e:
             _error_code = "auth_expired"
