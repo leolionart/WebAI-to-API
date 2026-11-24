@@ -1,5 +1,13 @@
 ### Changelog – WebAI to API
 
+#### v0.7.3 – 2026-11-24
+
+##### Fixed
+- Added support for extended Google Workspace / multi-account cookies (`OSID`, `__Secure-OSID`, `SID`, `__Secure-1PSIDCC`) ensuring full authorization without Google redirecting to ServiceLogin.
+- Added dynamic model resolution mapping generic model names (`gemini-3.0-flash`, `gemini-3.0-pro`, `gemini-3.0-flash-thinking`) to live internal Google model identifiers (`gemini-neon`, `gemini-4-hydrogen`, `gemini-hydrogen-thinking`).
+
+---
+
 #### v0.7.2 – 2026-11-24
 
 ##### Fixed

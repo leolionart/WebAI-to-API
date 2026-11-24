@@ -45,6 +45,25 @@ async def init_gemini_client() -> bool:
 
             if gemini_cookie_1PSID and gemini_cookie_1PSIDTS:
                 _gemini_client = MyGeminiClient(secure_1psid=gemini_cookie_1PSID, secure_1psidts=gemini_cookie_1PSIDTS, proxy=gemini_proxy)
+                for k, dom, sec in [
+                    ("gemini_cookie_1psidcc", ".google.com", True),
+                    ("gemini_cookie_sid", ".google.com", False),
+                    ("gemini_cookie_osid", "gemini.google.com", False),
+                    ("gemini_cookie_secure_osid", "gemini.google.com", True),
+                ]:
+                    val = CONFIG["Cookies"].get(k)
+                    if val:
+                        cname = (
+                            "__Secure-1PSIDCC"
+                            if k == "gemini_cookie_1psidcc"
+                            else (
+                                "SID"
+                                if k == "gemini_cookie_sid"
+                                else ("OSID" if k == "gemini_cookie_osid" else "__Secure-OSID")
+                            )
+                        )
+                        _gemini_client.client._cookies.set(cname, val, domain=dom, secure=sec)
+
                 await asyncio.wait_for(_gemini_client.init(), timeout=15.0)
                 logger.info("Gemini client initialized successfully.")
                 return True

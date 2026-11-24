@@ -152,6 +152,14 @@ async def import_from_curl(request: CurlImportRequest):
         )
     CONFIG["Cookies"]["gemini_cookie_1psid"] = result.secure_1psid
     CONFIG["Cookies"]["gemini_cookie_1psidts"] = result.secure_1psidts
+    for key, cname in [
+        ("gemini_cookie_1psidcc", "__Secure-1PSIDCC"),
+        ("gemini_cookie_sid", "SID"),
+        ("gemini_cookie_osid", "OSID"),
+        ("gemini_cookie_secure_osid", "__Secure-OSID"),
+    ]:
+        if cname in result.all_cookies:
+            CONFIG["Cookies"][key] = result.all_cookies[cname]
     write_config(CONFIG)
     logger.info("Cookies imported from cURL, reinitializing client...")
     success = await init_gemini_client()
