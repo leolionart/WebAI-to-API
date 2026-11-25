@@ -1,5 +1,12 @@
 ### Changelog – WebAI to API
 
+#### v0.7.4 – 2026-11-25
+
+##### Fixed
+- Bypassed artificial `_check_account_status` UNAUTHENTICATED error block in `gemini-webapi` during multimodal (image/camera) requests triggered by optional Google quota/enterprise RPC rejections on personal accounts.
+
+---
+
 #### v0.7.3 – 2026-11-24
 
 ##### Fixed

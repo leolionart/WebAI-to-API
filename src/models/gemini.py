@@ -47,6 +47,12 @@ class MyGeminiClient:
 
     async def init(self) -> None:
         """Initialize the Gemini client."""
+        # Prevent gemini-webapi from falsely blocking multimodal requests when
+        # optional enterprise/quota RPCs return permission denied on personal accounts.
+        def _safe_check_account_status(raise_error: bool = False) -> bool:
+            return True
+
+        self.client._check_account_status = _safe_check_account_status
         await self.client.init()
 
     async def generate_content(self, message: str, model: str, files: Optional[List[Union[str, Path]]] = None):
